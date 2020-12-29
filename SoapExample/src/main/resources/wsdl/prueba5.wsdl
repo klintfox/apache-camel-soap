@@ -1,0 +1,992 @@
+<wsdl:definitions targetNamespace="http://bks.piconector.com" xmlns:bks="http://bks.piconector.com" xmlns:bns="http://beans.piconector.com" xmlns:cfg="http://config.piconector.com" xmlns:gi="http://beans.gestorimagenes.imdea.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:track="http://tracking.piconector.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://beans.gestorimagenes.imdea.com">
+         <xsd:element name="picId" type="xsd:string"/>
+         <xsd:element name="statusDesc" type="xsd:string"/>
+         <xsd:element name="channel" type="xsd:string"/>
+         <xsd:element name="status" type="xsd:string"/>
+         <xsd:element name="lang" type="xsd:string"/>
+         <xsd:element name="from" type="xsd:string"/>
+         <xsd:element name="bks" type="xsd:base64Binary"/>
+         <xsd:element name="result">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="1" minOccurs="0" ref="gi:picId"/>
+                  <xsd:element ref="gi:status"/>
+                  <xsd:element ref="gi:statusDesc"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getPicRequest">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:info"/>
+                  <xsd:element ref="gi:params"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="info">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element minOccurs="0" ref="gi:from"/>
+                  <xsd:element minOccurs="0" ref="gi:channel"/>
+                  <xsd:element ref="gi:lang"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="param">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string"/>
+               <xsd:attribute name="value" type="xsd:string"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="picture">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element minOccurs="0" ref="gi:bks"/>
+               </xsd:sequence>
+               <xsd:attribute name="id" type="xsd:string"/>
+               <xsd:attribute name="height" type="xsd:string"/>
+               <xsd:attribute name="width" type="xsd:string"/>
+               <xsd:attribute name="resolution" type="xsd:string"/>
+               <xsd:attribute name="imageType" type="xsd:string"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="removePicRequest">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:info"/>
+                  <xsd:element ref="gi:params"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="setPicRequest">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:info"/>
+                  <xsd:element ref="gi:params"/>
+                  <xsd:element ref="gi:bks"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="addPicRequest">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:info"/>
+                  <xsd:element ref="gi:params"/>
+                  <xsd:element ref="gi:bks"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getAllPicRequest">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:info"/>
+                  <xsd:element ref="gi:params"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="params">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="gi:param"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+      <xsd:schema targetNamespace="http://beans.piconector.com">
+         <xsd:element name="ResponseInfo">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="name" type="xsd:string"/>
+                  <xsd:element name="value" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="ResponseItemURL" type="xsd:string"/>
+         <xsd:element name="CompositionResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="bns:Response"/>
+                  <xsd:element maxOccurs="unbounded" ref="bns:ResponseItem"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="ResponseItem">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="bns:ResponseItemInfo"/>
+                  <xsd:element ref="bns:ResponseItemURL"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="ResponseItemInfo">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="name" type="xsd:string"/>
+                  <xsd:element name="value" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Response">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="bns:ResponseInfo"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+      <xsd:schema targetNamespace="http://bks.piconector.com" xmlns="http://www.w3.org/2001/XMLSchema">
+         <xsd:import namespace="http://beans.piconector.com"/>
+         <xsd:import namespace="http://beans.gestorimagenes.imdea.com"/>
+         <element name="generaDocumentoURLResponse">
+            <complexType>
+               <sequence>
+                  <element name="generaDocumentoURLReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generarDocumentoDatosEnColaBatch">
+            <complexType>
+               <sequence>
+                  <element name="idDocumentoMQ" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generarDocumentoDatosEnColaBatchResponse">
+            <complexType>
+               <sequence>
+                  <element name="generarDocumentoDatosEnColaBatchReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaDocumentoDatosEnColaURL">
+            <complexType>
+               <sequence>
+                  <element name="idDocumentoMQ" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaDocumentoDatosEnColaURLResponse">
+            <complexType>
+               <sequence>
+                  <element name="generaDocumentoDatosEnColaURLReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="devuelveXmlTracking">
+            <complexType>
+               <sequence>
+                  <element name="idSolicitado" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generarPurgadoRepositorioTemporal">
+            <complexType>
+               <sequence/>
+            </complexType>
+         </element>
+         <element name="generarPurgadoRepositorioTemporalResponse">
+            <complexType>
+               <sequence/>
+            </complexType>
+         </element>
+         <element name="generaDocumentoDatosEnCola">
+            <complexType>
+               <sequence>
+                  <element name="idDocumentoMQ" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaDocumentoDatosEnColaResponse">
+            <complexType>
+               <sequence>
+                  <element name="generaDocumentoDatosEnColaReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generarDocumentoBatch">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generarDocumentoBatchResponse">
+            <complexType>
+               <sequence>
+                  <element name="generarDocumentoBatchReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaDocumento">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaDocumentoResponse">
+            <complexType>
+               <sequence>
+                  <element name="generaDocumentoReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="obtenerFicheroConfiguracion">
+            <complexType>
+               <sequence/>
+            </complexType>
+         </element>
+         <element name="generaDocumentoURL">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="reenviarDocumento">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="reenviarDocumentoResponse">
+            <complexType>
+               <sequence>
+                  <element name="reenviarDocumentoReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="obtenerEstadoReenvio">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="obtenerEstadoReenvioResponse">
+            <complexType>
+               <sequence>
+                  <element name="obtenerEstadoReenvioReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="obtenerEstadoBatch">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="obtenerEstadoBatchResponse">
+            <complexType>
+               <sequence>
+                  <element name="obtenerEstadoBatchReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaComposicion">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaComposicionResponse">
+            <complexType>
+               <sequence>
+                  <element name="generaComposicionReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <xsd:element name="addPic">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:addPicRequest"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="addPicResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="addPicReturn" nillable="true" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getPic">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:getPicRequest"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getPicResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="getPicReturn" nillable="true" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="setPic">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:setPicRequest"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="setPicResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="setPicReturn" nillable="true" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="removePic">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:removePicRequest"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="removePicResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="removePicReturn" nillable="true" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getAllPic">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="gi:getAllPicRequest"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getAllPicResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="getAllPicReturn" nillable="true" type="xsd:string"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <element name="generaDocumentoHTMLAutocontenido">
+            <complexType>
+               <sequence>
+                  <element name="datos" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="generaDocumentoHTMLAutocontenidoResponse">
+            <complexType>
+               <sequence>
+                  <element name="generaDocumentoHTMLAutocontenidoReturn" nillable="true" type="xsd:string"/>
+               </sequence>
+            </complexType>
+         </element>
+         
+      </xsd:schema>
+      <xsd:schema targetNamespace="http://config.piconector.com">
+         <xsd:element name="obtenerFicheroConfiguracionResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="cfg:Config"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Config">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="1" minOccurs="1" name="ConfigStatus"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" name="ConfigExtendedStatus"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" name="ConfigDescription"/>
+                  <xsd:element maxOccurs="1" minOccurs="0" ref="cfg:FileConfig"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="FileConfig">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="cfg:Piinfo"/>
+                  <xsd:element ref="cfg:Piconfiguration"/>
+                  <xsd:element maxOccurs="1" minOccurs="0" ref="cfg:Piconnections"/>
+                  <xsd:element ref="cfg:Pistorage"/>
+                  <xsd:element ref="cfg:Pipurgers"/>
+                  <xsd:element ref="cfg:Piloggers"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piinfo">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Piinfo_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piconfiguration">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Piconfiguration_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piconnections">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Piconnections_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pistorage">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Pistorage_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pipurgers">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Pipurge"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piloggers">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Pilog"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piinfo_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piconfiguration_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Piconnections_Item">
+            <xsd:complexType>
+               <xsd:attribute name="conn" type="xsd:string" use="required"/>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pistorage_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pipurge">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Pipurge_Item"/>
+               </xsd:sequence>
+               <xsd:attribute name="Id" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pipurge_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pilog">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="cfg:Pilog_Item"/>
+               </xsd:sequence>
+               <xsd:attribute name="id" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Pilog_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+      <xsd:schema targetNamespace="http://tracking.piconector.com">
+         <xsd:element name="devuelveXmlTrackingResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element ref="track:Root"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Root">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="1" minOccurs="1" name="TrackingStatus" type="xsd:string"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" name="TrackingExtendedStatus" type="xsd:string"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" name="TrackingDescription" type="xsd:string"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" ref="track:Tracking"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Tracking" nillable="true">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="1" minOccurs="1" ref="track:Status"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" ref="track:Info"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" ref="track:Format"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" ref="track:Storage"/>
+                  <xsd:element maxOccurs="1" minOccurs="1" ref="track:Runtime"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Status">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="track:Status_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Info">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="track:Info_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Format">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="track:Format_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Storage">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="track:Document"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Runtime">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="track:Runtime_Item"/>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Status_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Info_Item">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Format_Item">
+            <xsd:complexType>
+               <xsd:attribute name="IdDoc" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Document">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element maxOccurs="unbounded" ref="track:Location"/>
+               </xsd:sequence>
+               <xsd:attribute name="IdDoc" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Location">
+            <xsd:complexType>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+               <xsd:attribute name="value" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="Runtime_Item">
+            <xsd:complexType>
+               <xsd:attribute name="start" type="xsd:string" use="required"/>
+               <xsd:attribute name="end" type="xsd:string" use="required"/>
+               <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="reenviarDocumentoRequest">
+      <wsdl:part element="bks:reenviarDocumento" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="getPicRequest">
+      <wsdl:part element="bks:getPic" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generarDocumentoBatchRequest">
+      <wsdl:part element="bks:generarDocumentoBatch" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="addPicRequest">
+      <wsdl:part element="bks:addPic" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="setPicRequest">
+      <wsdl:part element="bks:setPic" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoDatosEnColaURLRequest">
+      <wsdl:part element="bks:generaDocumentoDatosEnColaURL" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="removePicResponse">
+      <wsdl:part element="bks:removePicResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="obtenerFicheroConfiguracionResponse">
+      <wsdl:part element="cfg:obtenerFicheroConfiguracionResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generarPurgadoRepositorioTemporalResponse">
+      <wsdl:part element="bks:generarPurgadoRepositorioTemporalResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoURLResponse">
+      <wsdl:part element="bks:generaDocumentoURLResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="obtenerEstadoBatchResponse">
+      <wsdl:part element="bks:obtenerEstadoBatchResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="addPicResponse">
+      <wsdl:part element="bks:addPicResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="obtenerEstadoReenvioRequest">
+      <wsdl:part element="bks:obtenerEstadoReenvio" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="devuelveXmlTrackingResponse">
+      <wsdl:part element="track:devuelveXmlTrackingResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoResponse">
+      <wsdl:part element="bks:generaDocumentoResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="getAllPicRequest">
+      <wsdl:part element="bks:getAllPic" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="removePicRequest">
+      <wsdl:part element="bks:removePic" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="reenviarDocumentoResponse">
+      <wsdl:part element="bks:reenviarDocumentoResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generarDocumentoDatosEnColaBatchRequest">
+      <wsdl:part element="bks:generarDocumentoDatosEnColaBatch" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoRequest">
+      <wsdl:part element="bks:generaDocumento" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoDatosEnColaURLResponse">
+      <wsdl:part element="bks:generaDocumentoDatosEnColaURLResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaComposicionRequest">
+      <wsdl:part element="bks:generaComposicion" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="obtenerFicheroConfiguracionRequest">
+      <wsdl:part element="bks:obtenerFicheroConfiguracion" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoDatosEnColaResponse">
+      <wsdl:part element="bks:generaDocumentoDatosEnColaResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoHTMLAutocontenidoRequest">
+      <wsdl:part element="bks:generaDocumentoHTMLAutocontenido" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoURLRequest">
+      <wsdl:part element="bks:generaDocumentoURL" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoDatosEnColaRequest">
+      <wsdl:part element="bks:generaDocumentoDatosEnCola" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="getAllPicResponse">
+      <wsdl:part element="bks:getAllPicResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="setPicResponse">
+      <wsdl:part element="bks:setPicResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generarDocumentoDatosEnColaBatchResponse">
+      <wsdl:part element="bks:generarDocumentoDatosEnColaBatchResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="obtenerEstadoBatchRequest">
+      <wsdl:part element="bks:obtenerEstadoBatch" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generarDocumentoBatchResponse">
+      <wsdl:part element="bks:generarDocumentoBatchResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="obtenerEstadoReenvioResponse">
+      <wsdl:part element="bks:obtenerEstadoReenvioResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="devuelveXmlTrackingRequest">
+      <wsdl:part element="bks:devuelveXmlTracking" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaDocumentoHTMLAutocontenidoResponse">
+      <wsdl:part element="bks:generaDocumentoHTMLAutocontenidoResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generaComposicionResponse">
+      <wsdl:part element="bks:generaComposicionResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="getPicResponse">
+      <wsdl:part element="bks:getPicResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="generarPurgadoRepositorioTemporalRequest">
+      <wsdl:part element="bks:generarPurgadoRepositorioTemporal" name="parameters"/>
+   </wsdl:message>
+   <wsdl:portType name="PIConectorBKS">
+      <wsdl:operation name="generaDocumentoURL">
+         <wsdl:input message="bks:generaDocumentoURLRequest" name="generaDocumentoURLRequest"/>
+         <wsdl:output message="bks:generaDocumentoURLResponse" name="generaDocumentoURLResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumento">
+         <wsdl:input message="bks:generaDocumentoRequest" name="generaDocumentoRequest"/>
+         <wsdl:output message="bks:generaDocumentoResponse" name="generaDocumentoResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumentoHTMLAutocontenido">
+         <wsdl:input message="bks:generaDocumentoHTMLAutocontenidoRequest" name="generaDocumentoHTMLAutocontenidoRequest"/>
+         <wsdl:output message="bks:generaDocumentoHTMLAutocontenidoResponse" name="generaDocumentoHTMLAutocontenidoResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generaComposicion">
+         <wsdl:input message="bks:generaComposicionRequest" name="generaComposicionRequest"/>
+         <wsdl:output message="bks:generaComposicionResponse" name="generaComposicionResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generarDocumentoBatch">
+         <wsdl:input message="bks:generarDocumentoBatchRequest" name="generarDocumentoBatchRequest"/>
+         <wsdl:output message="bks:generarDocumentoBatchResponse" name="generarDocumentoBatchResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="reenviarDocumento">
+         <wsdl:input message="bks:reenviarDocumentoRequest" name="reenviarDocumentoRequest"/>
+         <wsdl:output message="bks:reenviarDocumentoResponse" name="reenviarDocumentoResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumentoDatosEnColaURL">
+         <wsdl:input message="bks:generaDocumentoDatosEnColaURLRequest" name="generaDocumentoDatosEnColaURLRequest"/>
+         <wsdl:output message="bks:generaDocumentoDatosEnColaURLResponse" name="generaDocumentoDatosEnColaURLResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumentoDatosEnCola">
+         <wsdl:input message="bks:generaDocumentoDatosEnColaRequest" name="generaDocumentoDatosEnColaRequest"/>
+         <wsdl:output message="bks:generaDocumentoDatosEnColaResponse" name="generaDocumentoDatosEnColaResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generarDocumentoDatosEnColaBatch">
+         <wsdl:input message="bks:generarDocumentoDatosEnColaBatchRequest" name="generarDocumentoDatosEnColaBatchRequest"/>
+         <wsdl:output message="bks:generarDocumentoDatosEnColaBatchResponse" name="generarDocumentoDatosEnColaBatchResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="obtenerFicheroConfiguracion">
+         <wsdl:input message="bks:obtenerFicheroConfiguracionRequest" name="obtenerFicheroConfiguracionRequest"/>
+         <wsdl:output message="bks:obtenerFicheroConfiguracionResponse" name="obtenerFicheroConfiguracionResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="devuelveXmlTracking">
+         <wsdl:input message="bks:devuelveXmlTrackingRequest" name="devuelveXmlTrackingRequest"/>
+         <wsdl:output message="bks:devuelveXmlTrackingResponse" name="devuelveXmlTrackingResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="obtenerEstadoBatch">
+         <wsdl:input message="bks:obtenerEstadoBatchRequest" name="obtenerEstadoBatchRequest"/>
+         <wsdl:output message="bks:obtenerEstadoBatchResponse" name="obtenerEstadoBatchResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="obtenerEstadoReenvio">
+         <wsdl:input message="bks:obtenerEstadoReenvioRequest" name="obtenerEstadoReenvioRequest"/>
+         <wsdl:output message="bks:obtenerEstadoReenvioResponse" name="obtenerEstadoReenvioResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="generarPurgadoRepositorioTemporal">
+         <wsdl:input message="bks:generarPurgadoRepositorioTemporalRequest" name="generarPurgadoRepositorioTemporalRequest"/>
+         <wsdl:output message="bks:generarPurgadoRepositorioTemporalResponse" name="generarPurgadoRepositorioTemporalResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="addPic">
+         <wsdl:input message="bks:addPicRequest"/>
+         <wsdl:output message="bks:addPicResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getPic">
+         <wsdl:input message="bks:getPicRequest"/>
+         <wsdl:output message="bks:getPicResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="setPic">
+         <wsdl:input message="bks:setPicRequest"/>
+         <wsdl:output message="bks:setPicResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removePic">
+         <wsdl:input message="bks:removePicRequest"/>
+         <wsdl:output message="bks:removePicResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getAllPic">
+         <wsdl:input message="bks:getAllPicRequest"/>
+         <wsdl:output message="bks:getAllPicResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="PIConectorBKSSoapBinding" type="bks:PIConectorBKS">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="generaDocumentoURL">
+         <wsdlsoap:operation soapAction="generaDocumentoURL"/>
+         <wsdl:input name="generaDocumentoURLRequest">
+            <wsdlsoap:body parts="parameters" use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generaDocumentoURLResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumento">
+         <wsdlsoap:operation soapAction="generaDocumento"/>
+         <wsdl:input name="generaDocumentoRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generaDocumentoResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generaComposicion">
+         <wsdlsoap:operation soapAction="generaComposicion"/>
+         <wsdl:input name="generaComposicionRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generaComposicionResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumentoHTMLAutocontenido">
+         <wsdlsoap:operation soapAction="generaDocumentoHTMLAutocontenido"/>
+         <wsdl:input name="generaDocumentoHTMLAutocontenidoRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generaDocumentoHTMLAutocontenidoResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generarDocumentoBatch">
+         <wsdlsoap:operation soapAction="generarDocumentoBatch"/>
+         <wsdl:input name="generarDocumentoBatchRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generarDocumentoBatchResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="reenviarDocumento">
+         <wsdlsoap:operation soapAction="reenviarDocumento"/>
+         <wsdl:input name="reenviarDocumentoRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="reenviarDocumentoResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumentoDatosEnColaURL">
+         <wsdlsoap:operation soapAction="generaDocumentoDatosEnColaURL"/>
+         <wsdl:input name="generaDocumentoDatosEnColaURLRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generaDocumentoDatosEnColaURLResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generaDocumentoDatosEnCola">
+         <wsdlsoap:operation soapAction="generaDocumentoDatosEnCola"/>
+         <wsdl:input name="generaDocumentoDatosEnColaRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generaDocumentoDatosEnColaResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generarDocumentoDatosEnColaBatch">
+         <wsdlsoap:operation soapAction="generarDocumentoDatosEnColaBatch"/>
+         <wsdl:input name="generarDocumentoDatosEnColaBatchRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generarDocumentoDatosEnColaBatchResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="obtenerFicheroConfiguracion">
+         <wsdlsoap:operation soapAction="obtenerFicheroConfiguracion"/>
+         <wsdl:input name="obtenerFicheroConfiguracionRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="obtenerFicheroConfiguracionResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="devuelveXmlTracking">
+         <wsdlsoap:operation soapAction="devuelveXmlTracking"/>
+         <wsdl:input name="devuelveXmlTrackingRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="devuelveXmlTrackingResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="obtenerEstadoBatch">
+         <wsdlsoap:operation soapAction="obtenerEstadoBatch"/>
+         <wsdl:input name="obtenerEstadoBatchRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="obtenerEstadoBatchResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="obtenerEstadoReenvio">
+         <wsdlsoap:operation soapAction="obtenerEstadoReenvio"/>
+         <wsdl:input name="obtenerEstadoReenvioRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="obtenerEstadoReenvioResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="generarPurgadoRepositorioTemporal">
+         <wsdlsoap:operation soapAction="generarPurgadoRepositorioTemporal"/>
+         <wsdl:input name="generarPurgadoRepositorioTemporalRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="generarPurgadoRepositorioTemporalResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="addPic">
+         <wsdlsoap:operation soapAction="addPic"/>
+         <wsdl:input name="addPicRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="addPicResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="removePic">
+         <wsdlsoap:operation soapAction="removePic"/>
+         <wsdl:input name="removePicRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="removePicResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setPic">
+         <wsdlsoap:operation soapAction="setPic"/>
+         <wsdl:input name="setPicRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="setPicResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getPic">
+         <wsdlsoap:operation soapAction="getPic"/>
+         <wsdl:input name="getPicRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getPicResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getAllPic">
+         <wsdlsoap:operation soapAction="getAllPic"/>
+         <wsdl:input name="getAllPicRequest">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getAllPicResponse">
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="PIConectorBKSService">
+      <wsdl:port binding="bks:PIConectorBKSSoapBinding" name="PIConectorBKS">
+         <wsdlsoap:address location="http://waspitvlcl01.cl.bsch:10029/PIConectorBKS/services/PIConectorBKS"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
